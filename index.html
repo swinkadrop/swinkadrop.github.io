@@ -1,2061 +1,2063 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Świński Drop</title>
-
-<style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100vh;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: #fff;
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            #35172f 0%,
-            #151219 38%,
-            #08080c 100%
-        );
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-header {
-    height: 78px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 32px;
-
-    background: rgba(8,8,12,.94);
-
-    border-bottom:
-        1px solid #292932;
-
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 27px;
-    font-weight: 900;
-
-    color: #ff4f9a;
-
-    letter-spacing: -.5px;
-}
-
-.balance {
-    padding: 11px 18px;
-
-    border-radius: 12px;
-
-    background: #15151c;
-
-    border:
-        1px solid #32323d;
-
-    font-size: 15px;
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-main {
-    width: 100%;
-    max-width: 1500px;
-
-    margin: 0 auto;
-
-    padding: 25px;
-
-    display: grid;
-
-    grid-template-columns:
-        320px
-        minmax(500px, 1fr)
-        320px;
-
-    gap: 20px;
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-.panel {
-    background:
-        rgba(18,18,25,.96);
-
-    border:
-        1px solid #30303a;
-
-    border-radius: 18px;
-
-    padding: 18px;
-}
-
-.panel h2 {
-    margin:
-        0 0 7px;
-
-    font-size: 17px;
-}
-
-.subtitle {
-    margin-bottom: 15px;
-
-    color: #858590;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.search {
-    width: 100%;
-
-    padding:
-        12px 14px;
-
-    margin-bottom: 14px;
-
-    border:
-        1px solid #353540;
-
-    border-radius: 10px;
-
-    outline: none;
-
-    background: #0e0e14;
-
-    color: white;
-
-    font-size: 14px;
-}
-
-.search::placeholder {
-    color: #666672;
-}
-
-.search:focus {
-    border-color: #ff4f9a;
-}
-
-
-/* =========================================================
-   ITEMS
-========================================================= */
-
-.items {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
-
-    max-height: 610px;
-
-    overflow-y: auto;
-
-    padding-right: 3px;
-}
-
-.item {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 10px;
-
-    border:
-        1px solid #292932;
-
-    border-radius: 11px;
-
-    background: #12121a;
-
-    cursor: pointer;
-
-    transition:
-        transform .15s,
-        border-color .15s,
-        background .15s;
-}
-
-.item:hover {
-    transform: translateY(-1px);
-
-    border-color: #555562;
-}
-
-.item.selected {
-    background:
-        rgba(255,79,154,.11);
-
-    border-color:
-        #ff4f9a;
-
-    box-shadow:
-        0 0 18px rgba(255,79,154,.12);
-}
-
-.item-icon {
-    width: 43px;
-    height: 43px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 10px;
-
-    background: #20202a;
-
-    font-size: 25px;
-}
-
-.item-info {
-    min-width: 0;
-}
-
-.item-name {
-    overflow: hidden;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.item-price {
-    margin-top: 3px;
-
-    color: #ff4f9a;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   CENTER
-========================================================= */
-
-.center {
-    min-width: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-}
-
-
-/* =========================================================
-   PREVIEW
-========================================================= */
-
-.preview {
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 18px;
-
-    margin-bottom: 18px;
-}
-
-.card {
-    width: 155px;
-    min-height: 120px;
-
-    padding: 14px;
-
-    text-align: center;
-
-    background: #14141c;
-
-    border:
-        1px solid #30303b;
-
-    border-radius: 15px;
-}
-
-.card .big {
-    font-size: 38px;
-
-    line-height: 42px;
-}
-
-.card .name {
-    margin-top: 5px;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.card .value {
-    margin-top: 5px;
-
-    color: #ff4f9a;
-
-    font-size: 13px;
-
-    font-weight: 700;
-}
-
-.arrow {
-    color: #ff4f9a;
-
-    font-size: 28px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   CHANCE
-========================================================= */
-
-.chance {
-    margin-bottom: 10px;
-
-    font-size: 18px;
-
-    font-weight: 800;
-}
-
-.chance span {
-    color: #ff4f9a;
-}
-
-
-/* =========================================================
-   WHEEL
-========================================================= */
-
-.wheel-area {
-
-    position: relative;
-
-    width: 380px;
-    height: 380px;
-
-    margin:
-        0 auto 18px;
-}
-
-
-#wheel {
-
-    position: absolute;
-
-    left: 25px;
-    top: 25px;
-
-    width: 330px;
-    height: 330px;
-
-    border-radius: 50%;
-
-    background:
-        conic-gradient(
-            from 0deg,
-
-            #ff4f9a 0deg,
-            #ff4f9a var(--pink-angle),
-
-            #25252e var(--pink-angle),
-            #25252e 360deg
-        );
-
-    border:
-        7px solid #101016;
-
-    box-shadow:
-        0 0 0 2px #3b3b46,
-        0 0 50px rgba(255,79,154,.17);
-}
-
-#wheel::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 23px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid rgba(255,255,255,.12);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   POINTER
-========================================================= */
-
-#pointer-wrapper {
-
-    position: absolute;
-
-    left: 25px;
-    top: 25px;
-
-    width: 330px;
-    height: 330px;
-
-    z-index: 10;
-
-    transform-origin:
-        50% 50%;
-
-    transform:
-        rotate(0deg);
-
-    transition:
-        transform 4.2s cubic-bezier(
-            .12,
-            .72,
-            .12,
-            1
-        );
-
-    pointer-events: none;
-}
-
-.pointer-line {
-
-    position: absolute;
-
-    left: 50%;
-    bottom: 50%;
-
-    width: 5px;
-    height: 140px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 6px;
-
-    background: white;
-
-    box-shadow:
-        0 0 9px rgba(255,255,255,.55);
-}
-
-.pointer-line::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    top: -16px;
-
-    transform:
-        translateX(-50%);
-
-    width: 0;
-    height: 0;
-
-    border-left:
-        11px solid transparent;
-
-    border-right:
-        11px solid transparent;
-
-    border-bottom:
-        18px solid white;
-
-    filter:
-        drop-shadow(
-            0 2px 4px #000
-        );
-}
-
-
-/* =========================================================
-   CENTER DOT
-========================================================= */
-
-.center-dot {
-
-    position: absolute;
-
-    left: 190px;
-    top: 190px;
-
-    z-index: 20;
-
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    transform:
-        translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    border:
-        4px solid #3b3b46;
-
-    background: #111117;
-
-    font-size: 24px;
-
-    box-shadow:
-        0 0 15px rgba(0,0,0,.5);
-}
-
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.spin {
-
-    border: none;
-
-    border-radius: 13px;
-
-    padding:
-        15px 60px;
-
-    background: #ff4f9a;
-
-    color: white;
-
-    font-size: 17px;
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 25px
-        rgba(255,79,154,.22);
-
-    transition:
-        transform .15s,
-        background .15s;
-}
-
-.spin:hover {
-    background: #ff65a7;
-
-    transform:
-        translateY(-2px);
-}
-
-.spin:disabled {
-    opacity: .5;
-
-    cursor: not-allowed;
-
-    transform: none;
-}
-
-
-/* =========================================================
-   RESULT
-========================================================= */
-
-.result {
-
-    min-height: 28px;
-
-    margin-top: 13px;
-
-    text-align: center;
-
-    font-size: 18px;
-
-    font-weight: 900;
-}
-
-.result.win {
-    color: #ff4f9a;
-}
-
-.result.loss {
-    color: #b0b0ba;
-}
-
-
-/* =========================================================
-   SHOP
-========================================================= */
-
-.shop {
-    max-width: 1450px;
-
-    margin:
-        0 auto 30px;
-}
-
-.shop-title {
-    margin-bottom: 12px;
-
-    font-size: 20px;
-
-    font-weight: 900;
-}
-
-.shop-items {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    gap: 10px;
-}
-
-.shop-item {
-
-    padding: 12px;
-
-    text-align: center;
-
-    background: #14141c;
-
-    border:
-        1px solid #30303a;
-
-    border-radius: 12px;
-
-    transition:
-        transform .15s,
-        border-color .15s;
-}
-
-.shop-item:hover {
-
-    transform:
-        translateY(-2px);
-
-    border-color:
-        #ff4f9a;
-}
-
-.shop-item .emoji {
-    font-size: 30px;
-}
-
-.shop-name {
-    margin:
-        5px 0;
-
-    font-size: 12px;
-
-    font-weight: 800;
-}
-
-.shop-price {
-    margin-bottom: 8px;
-
-    color: #ff4f9a;
-
-    font-size: 12px;
-}
-
-.buy {
-
-    width: 100%;
-
-    padding: 8px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #292934;
-
-    color: white;
-
-    cursor: pointer;
-
-    font-weight: 800;
-}
-
-.buy:hover {
-    background: #3a3a47;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-.items::-webkit-scrollbar {
-    width: 5px;
-}
-
-.items::-webkit-scrollbar-thumb {
-    background: #383842;
-
-    border-radius: 10px;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1100px) {
-
-    main {
-        grid-template-columns: 1fr;
-    }
-
-    .items {
-        max-height: 300px;
-    }
-
-    .shop-items {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
-}
-
-
-@media(max-width:700px) {
-
-    .shop-items {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-}
-
-
-@media(max-width:520px) {
-
-    header {
-        padding: 0 15px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    main {
-        padding: 15px;
-    }
-
-    .preview {
-        gap: 8px;
-    }
-
-    .card {
-        width: 130px;
-    }
-
-    .wheel-area {
-
-        transform:
-            scale(.82);
-
-        margin:
-            -30px
-            auto
-            -30px;
-    }
-
-    .shop-items {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Świński Drop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, #252536 0%, #101016 45%, #08080c 100%);
+            color: white;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1500px, 96%);
+            margin: 0 auto;
+            padding: 20px 0 50px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 18px 22px;
+            border: 1px solid #32323e;
+            border-radius: 18px;
+            background: rgba(20, 20, 29, .9);
+            box-shadow: 0 15px 45px rgba(0,0,0,.25);
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #ff4f9a;
+        }
+
+        .balance {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 18px;
+            border-radius: 14px;
+            background: #171720;
+            border: 1px solid #343442;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        #balance {
+            color: #7dffb2;
+        }
+
+        .music-button {
+            border: 1px solid #444452;
+            background: #20202b;
+            color: white;
+            border-radius: 12px;
+            padding: 11px 15px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .music-button:hover {
+            background: #2c2c39;
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           MAIN GRID
+        ========================= */
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr 1fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .panel {
+            background: rgba(19, 19, 27, .94);
+            border: 1px solid #343440;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.2);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .panel-title span {
+            color: #ff4f9a;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search {
+            width: 100%;
+            border: 1px solid #3c3c49;
+            background: #101017;
+            color: white;
+            border-radius: 12px;
+            padding: 12px 14px;
+            outline: none;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #ff4f9a;
+            box-shadow: 0 0 0 2px rgba(255,79,154,.1);
+        }
+
+        /* =========================
+           ITEM LIST
+        ========================= */
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 550px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .items-list::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .items-list::-webkit-scrollbar-track {
+            background: #101017;
+            border-radius: 10px;
+        }
+
+        .items-list::-webkit-scrollbar-thumb {
+            background: #3b3b48;
+            border-radius: 10px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-height: 64px;
+            padding: 9px;
+            border-radius: 13px;
+            border: 1px solid #30303c;
+            background: #15151e;
+            transition: .16s;
+        }
+
+        .item:hover {
+            border-color: #555564;
+            transform: translateY(-1px);
+        }
+
+        .item.selected {
+            border-color: #ff4f9a;
+            background: rgba(255,79,154,.10);
+            box-shadow: 0 0 18px rgba(255,79,154,.08);
+        }
+
+        .item-icon {
+            width: 46px;
+            height: 46px;
+            flex: 0 0 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: #242430;
+            font-size: 27px;
+        }
+
+        .item-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-price {
+            color: #8d8d9c;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .item-action {
+            border: none;
+            border-radius: 9px;
+            padding: 8px 9px;
+            background: #272732;
+            color: white;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .item-action:hover {
+            background: #353541;
+        }
+
+        .buy-button {
+            background: #ff4f9a;
+            color: white;
+        }
+
+        .buy-button:hover {
+            background: #ff3d8e;
+        }
+
+        .sell-button {
+            background: #24242f;
+            color: #ff87b8;
+        }
+
+        .sell-button:hover {
+            background: #33333f;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777784;
+            padding: 25px 10px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           CENTER
+        ========================= */
+
+        .center-panel {
+            text-align: center;
+        }
+
+        .upgrade-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .selected-box {
+            min-height: 110px;
+            border: 1px solid #373744;
+            border-radius: 15px;
+            background: #12121a;
+            padding: 12px;
+        }
+
+        .selected-label {
+            color: #888896;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .selected-item {
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .selected-item .big-icon {
+            font-size: 36px;
+        }
+
+        .selected-item-name {
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        .selected-item-price {
+            color: #7dffb2;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           WHEEL
+        ========================= */
+
+        .wheel-area {
+            position: relative;
+            width: 380px;
+            height: 380px;
+            margin: 10px auto 18px;
+        }
+
+        #wheel {
+            position: absolute;
+            left: 25px;
+            top: 25px;
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    from 0deg,
+                    #ff4f9a 0deg,
+                    #ff4f9a var(--pink-angle),
+                    #25252e var(--pink-angle),
+                    #25252e 360deg
+                );
+
+            border: 7px solid #101016;
+
+            box-shadow:
+                0 0 0 2px #3b3b46,
+                0 0 50px rgba(255,79,154,.17);
+        }
+
+        /*
+            WAŻNE:
+            Koło się NIE obraca.
+            Obraca się wyłącznie pointer-wrapper.
+        */
+
+        #pointer-wrapper {
+            position: absolute;
+            left: 25px;
+            top: 25px;
+            width: 330px;
+            height: 330px;
+            z-index: 10;
+
+            transform-origin: 50% 50%;
+            transform: rotate(0deg);
+
+            transition:
+                transform 4.2s cubic-bezier(.12,.72,.12,1);
+
+            pointer-events: none;
+        }
+
+        .pointer-line {
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+
+            width: 5px;
+            height: 140px;
+
+            transform: translateX(-50%);
+
+            border-radius: 6px;
+            background: white;
+
+            box-shadow:
+                0 0 9px rgba(255,255,255,.55);
+        }
+
+        .pointer-line::before {
+            content: "";
+
+            position: absolute;
+            left: 50%;
+            top: -16px;
+
+            transform: translateX(-50%);
+
+            width: 0;
+            height: 0;
+
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+            border-bottom: 18px solid white;
+
+            filter: drop-shadow(0 2px 4px #000);
+        }
+
+        .center-dot {
+            position: absolute;
+            z-index: 20;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 62px;
+            height: 62px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #171720;
+            border: 4px solid #30303c;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,.4);
+        }
+
+        .chance-box {
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+
+        .chance-label {
+            color: #888896;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .chance {
+            font-size: 32px;
+            font-weight: 1000;
+            color: #ff4f9a;
+        }
+
+        .upgrade-button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff4f9a,
+                    #ff2d82
+                );
+
+            color: white;
+            font-size: 17px;
+            font-weight: 1000;
+
+            box-shadow:
+                0 8px 25px rgba(255,79,154,.2);
+
+            transition: .2s;
+        }
+
+        .upgrade-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 30px rgba(255,79,154,.3);
+        }
+
+        .upgrade-button:disabled {
+            cursor: not-allowed;
+            opacity: .4;
+        }
+
+        .result {
+            min-height: 32px;
+            margin-top: 13px;
+            font-size: 18px;
+            font-weight: 1000;
+        }
+
+        .result.win {
+            color: #7dffb2;
+        }
+
+        .result.loss {
+            color: #ff667c;
+        }
+
+        /* =========================
+           SHOP
+        ========================= */
+
+        .shop-list {
+            max-height: 550px;
+        }
+
+        /* =========================
+           CODE
+        ========================= */
+
+        .code-box {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 15px;
+            background: #111119;
+            border: 1px solid #30303c;
+        }
+
+        .code-title {
+            font-size: 13px;
+            font-weight: 900;
+            margin-bottom: 9px;
+        }
+
+        .code-row {
+            display: flex;
+            gap: 7px;
+        }
+
+        .code-input {
+            flex: 1;
+            min-width: 0;
+
+            border: 1px solid #3b3b48;
+            background: #181820;
+            color: white;
+
+            border-radius: 10px;
+            padding: 11px 12px;
+            outline: none;
+        }
+
+        .code-input:focus {
+            border-color: #ff4f9a;
+        }
+
+        .code-button {
+            border: none;
+            background: #30303b;
+            color: white;
+            border-radius: 10px;
+            padding: 0 14px;
+            font-weight: 900;
+        }
+
+        .code-button:hover {
+            background: #41414d;
+        }
+
+        .code-message {
+            margin-top: 8px;
+            min-height: 16px;
+            font-size: 12px;
+            color: #9999a7;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #656571;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .center-panel {
+                order: -1;
+            }
+
+            .items-list {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                padding-top: 10px;
+            }
+
+            .header {
+                flex-wrap: wrap;
+                padding: 14px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .balance {
+                font-size: 16px;
+            }
+
+            .music-button {
+                width: 100%;
+            }
+
+            .upgrade-box {
+                grid-template-columns: 1fr;
+            }
+
+            .wheel-area {
+                transform: scale(.82);
+                transform-origin: center top;
+                margin-bottom: -45px;
+            }
+
+            .item-name {
+                font-size: 13px;
+            }
+
+            .item-action {
+                padding: 7px;
+            }
+
+            .code-row {
+                flex-direction: column;
+            }
+
+            .code-button {
+                padding: 11px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+<div class="container">
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-<header>
+    <header class="header">
 
-    <div class="logo">
-        🐷 ŚWIŃSKI DROP
-    </div>
-
-    <div class="balance">
-
-        💰
-
-        <span id="balance">
-            1000.00
-        </span>
-
-        PLN
-
-    </div>
-
-</header>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main>
-
-
-<!-- =========================================================
-     FROM
-========================================================= -->
-
-<section class="panel">
-
-    <h2>
-        📦 Z CZEGO UPGRADE'JESZ?
-    </h2>
-
-    <div class="subtitle">
-        Wybierz przedmiot ze swojego ekwipunku
-    </div>
-
-    <input
-        id="fromSearch"
-        class="search"
-        type="text"
-        placeholder="🔎 Szukaj przedmiotu..."
-    >
-
-    <div
-        id="fromItems"
-        class="items"
-    ></div>
-
-</section>
-
-
-<!-- =========================================================
-     CENTER
-========================================================= -->
-
-<section class="center">
-
-
-    <div class="preview">
-
-
-        <div
-            id="fromCard"
-            class="card"
-        >
-
-            <div class="big">
-                ❓
-            </div>
-
-            <div class="name">
-                Wybierz item
-            </div>
-
-            <div class="value">
-                ---
-            </div>
-
+        <div class="logo">
+            🐷 ŚWIŃSKI <span>DROP</span>
         </div>
 
-
-        <div class="arrow">
-            ➜
+        <div class="balance">
+            💰
+            <span id="balance">1000 PLN</span>
         </div>
 
-
-        <div
-            id="toCard"
-            class="card"
+        <button
+            id="music-toggle"
+            class="music-button"
+            onclick="toggleMusic()"
         >
+            🔊 MUZYKA
+        </button>
 
-            <div class="big">
-                ❓
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main-grid">
+
+        <!-- =========================
+             INVENTORY
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-title">
+                📦 <span>Z CZEGO</span> UPGRADEJESZ
             </div>
 
-            <div class="name">
-                Wybierz item
-            </div>
-
-            <div class="value">
-                ---
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="chance">
-
-        Szansa:
-        <span id="chance">
-            0%
-        </span>
-
-    </div>
-
-
-    <!-- =====================================================
-         WHEEL
-    ===================================================== -->
-
-    <div class="wheel-area">
-
-        <div
-            id="wheel"
-            style="--pink-angle: 0deg;"
-        ></div>
-
-
-        <div
-            id="pointer-wrapper"
-        >
+            <input
+                id="inventory-search"
+                class="search"
+                type="text"
+                placeholder="SZUKAJ W EKWIPUNKU..."
+                autocomplete="off"
+            >
 
             <div
-                class="pointer-line"
+                id="inventory-list"
+                class="items-list"
             ></div>
 
+        </section>
+
+
+        <!-- =========================
+             CENTER / WHEEL
+        ========================== -->
+
+        <section class="panel center-panel">
+
+            <div class="panel-title">
+                🎰 ŚWIŃSKI <span>UPGRADE</span>
+            </div>
+
+
+            <div class="upgrade-box">
+
+                <div class="selected-box">
+
+                    <div class="selected-label">
+                        Z CZEGO
+                    </div>
+
+                    <div
+                        id="selected-from"
+                        class="selected-item"
+                    >
+                        <div class="empty">
+                            Wybierz item
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="selected-box">
+
+                    <div class="selected-label">
+                        DO CZEGO
+                    </div>
+
+                    <div
+                        id="selected-to"
+                        class="selected-item"
+                    >
+                        <div class="empty">
+                            Wybierz item
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="wheel-area">
+
+                <!-- KOŁO JEST STAŁE -->
+                <div
+                    id="wheel"
+                    style="--pink-angle: 0deg;"
+                ></div>
+
+                <!-- TYLKO WSKAZÓWKA SIĘ OBRACA -->
+                <div id="pointer-wrapper">
+                    <div class="pointer-line"></div>
+                </div>
+
+                <div class="center-dot">
+                    🐷
+                </div>
+
+            </div>
+
+
+            <div class="chance-box">
+
+                <div class="chance-label">
+                    SZANSA NA WYGRANĄ
+                </div>
+
+                <div
+                    id="chance"
+                    class="chance"
+                >
+                    0%
+                </div>
+
+            </div>
+
+
+            <button
+                id="upgrade-button"
+                class="upgrade-button"
+                onclick="upgrade()"
+                disabled
+            >
+                UPGRADE
+            </button>
+
+
+            <div
+                id="result"
+                class="result"
+            ></div>
+
+        </section>
+
+
+        <!-- =========================
+             TARGET + SHOP
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-title">
+                🎯 <span>DO CZEGO</span>
+            </div>
+
+            <input
+                id="target-search"
+                class="search"
+                type="text"
+                placeholder="SZUKAJ ITEMU..."
+                autocomplete="off"
+            >
+
+            <div
+                id="target-list"
+                class="items-list"
+            ></div>
+
+
+            <div class="code-box">
+
+                <div class="code-title">
+                    🎁 KOD BONUSOWY
+                </div>
+
+                <div class="code-row">
+
+                    <input
+                        id="code-input"
+                        class="code-input"
+                        type="text"
+                        placeholder="WPISZ KOD..."
+                        autocomplete="off"
+                        maxlength="50"
+                    >
+
+                    <button
+                        class="code-button"
+                        onclick="redeemCode()"
+                    >
+                        ODBIERZ
+                    </button>
+
+                </div>
+
+                <div
+                    id="code-message"
+                    class="code-message"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         SHOP
+    ========================== -->
+
+    <section
+        class="panel"
+        style="margin-top:18px;"
+    >
+
+        <div class="panel-title">
+            🛒 <span>SKLEP</span>
         </div>
 
+        <input
+            id="shop-search"
+            class="search"
+            type="text"
+            placeholder="SZUKAJ W SKLEPIE..."
+            autocomplete="off"
+        >
 
-        <div class="center-dot">
-            🐷
-        </div>
+        <div
+            id="shop-list"
+            class="items-list shop-list"
+        ></div>
 
+    </section>
+
+
+    <div class="footer">
+        ŚWIŃSKI DROP • Twój progres zapisuje się automatycznie w przeglądarce.
     </div>
 
+</div>
 
-    <button
-        id="spin"
-        class="spin"
+
+<!-- =========================
+     MUSIC
+========================== -->
+
+<audio
+    id="background-music"
+    loop
+    preload="auto"
+>
+    <source
+        src="./swinski-soundtrack.mp3"
+        type="audio/mpeg"
     >
-        ZAKRĘĆ
-    </button>
-
-
-    <div
-        id="result"
-        class="result"
-    ></div>
-
-
-</section>
-
-
-<!-- =========================================================
-     TO
-========================================================= -->
-
-<section class="panel">
-
-    <h2>
-        🎯 DO CZEGO UPGRADE'JESZ?
-    </h2>
-
-    <div class="subtitle">
-        Wybierz przedmiot docelowy
-    </div>
-
-    <input
-        id="toSearch"
-        class="search"
-        type="text"
-        placeholder="🔎 Szukaj przedmiotu..."
-    >
-
-    <div
-        id="toItems"
-        class="items"
-    ></div>
-
-</section>
-
-
-</main>
-
-
-<!-- =========================================================
-     SHOP
-========================================================= -->
-
-<section class="panel shop">
-
-    <div class="shop-title">
-        🛒 SKLEP
-    </div>
-
-    <div
-        id="shopItems"
-        class="shop-items"
-    ></div>
-
-</section>
+</audio>
 
 
 <script>
 
+    /* =========================================================
+       ITEMS
+    ========================================================= */
 
-/* =========================================================
-   ITEM DATABASE
-========================================================= */
+    const ITEMS = [
 
-const ITEMS = [
+        { id: 1, name: "Bekon", emoji: "🥓", price: 50 },
+        { id: 2, name: "Mały Prosiak", emoji: "🐷", price: 100 },
+        { id: 3, name: "Różowy Prosiak", emoji: "🐖", price: 200 },
+        { id: 4, name: "Złoty Prosiak", emoji: "🐽", price: 400 },
+        { id: 5, name: "Diamentowa Świnia", emoji: "💎", price: 800 },
+        { id: 6, name: "Świński Król", emoji: "👑", price: 1500 },
+        { id: 7, name: "Mega Świnia", emoji: "🐖", price: 3000 },
+        { id: 8, name: "Pasza dla Świnek", emoji: "🌾", price: 5000 },
+        { id: 9, name: "Złota Pasza", emoji: "✨", price: 10000 },
+        { id: 10, name: "Magiczna Pasza", emoji: "🪄", price: 25000 },
+        { id: 11, name: "Kosmiczna Świnia", emoji: "🚀", price: 50000 },
+        { id: 12, name: "Neonowa Świnia", emoji: "🌈", price: 100000 },
+        { id: 13, name: "Czarno-Biała Świnka", emoji: "🐼", price: 175000 },
+        { id: 14, name: "Kolorowa Świnka", emoji: "🎨", price: 250000 },
+        { id: 15, name: "Łysa Świnka", emoji: "🧑‍🦲", price: 350000 },
+        { id: 16, name: "Cyber Świnka", emoji: "🤖", price: 500000 },
+        { id: 17, name: "Kryształowa Świnka", emoji: "🔮", price: 750000 },
+        { id: 18, name: "Diamentowa Świnka", emoji: "💠", price: 1000000 },
+        { id: 19, name: "Królowa Świń", emoji: "👸", price: 1500000 },
+        { id: 20, name: "Mityczna Świnka", emoji: "🔥", price: 2500000 },
+        { id: 21, name: "Świnka Duch", emoji: "👻", price: 4000000 },
+        { id: 22, name: "Zombie Świnka", emoji: "🧟", price: 6500000 },
+        { id: 23, name: "Klaun Świnka", emoji: "🤡", price: 10000000 },
+        { id: 24, name: "Obca Świnka", emoji: "👽", price: 15000000 },
+        { id: 25, name: "Galaktyczna Świnka", emoji: "🌌", price: 25000000 },
+        { id: 26, name: "Świnka Czasu", emoji: "⏳", price: 40000000 },
+        { id: 27, name: "Świnka Boga", emoji: "✨", price: 75000000 },
+        { id: 28, name: "Wszechświnka", emoji: "🌟", price: 150000000 },
+        { id: 29, name: "Legendarny Świniator", emoji: "⚡", price: 300000000 },
+        { id: 30, name: "ULTIMATE ŚWINIA", emoji: "👑", price: 1000000000 }
 
-    {
-        id: 1,
-        name: "Bekon",
-        emoji: "🥓",
-        price: 50
-    },
-
-    {
-        id: 2,
-        name: "Mały Prosiak",
-        emoji: "🐷",
-        price: 100
-    },
-
-    {
-        id: 3,
-        name: "Różowy Prosiak",
-        emoji: "🐖",
-        price: 200
-    },
-
-    {
-        id: 4,
-        name: "Złoty Prosiak",
-        emoji: "🐽",
-        price: 400
-    },
-
-    {
-        id: 5,
-        name: "Diamentowa Świnia",
-        emoji: "💎",
-        price: 800
-    },
-
-    {
-        id: 6,
-        name: "Świński Król",
-        emoji: "👑",
-        price: 1500
-    },
-
-    {
-        id: 7,
-        name: "Mega Świnia",
-        emoji: "🐖",
-        price: 3000
-    },
-
-    {
-        id: 8,
-        name: "Kosmiczna Świnia",
-        emoji: "🚀",
-        price: 5000
-    },
-
-    {
-        id: 9,
-        name: "Neonowa Świnia",
-        emoji: "🌈",
-        price: 10000
-    },
-
-    {
-        id: 10,
-        name: "Cyber Świnia",
-        emoji: "🤖",
-        price: 20000
-    },
-
-    {
-        id: 11,
-        name: "Kryształowa Świnia",
-        emoji: "🔮",
-        price: 40000
-    },
-
-    {
-        id: 12,
-        name: "Diamentowy Prosiak",
-        emoji: "💠",
-        price: 75000
-    },
-
-    {
-        id: 13,
-        name: "Królowa Świń",
-        emoji: "👸",
-        price: 125000
-    },
-
-    {
-        id: 14,
-        name: "Mityczna Świnia",
-        emoji: "🔥",
-        price: 200000
-    },
-
-    {
-        id: 15,
-        name: "Kosmiczny Król",
-        emoji: "🌌",
-        price: 350000
-    },
-
-    {
-        id: 16,
-        name: "Legendarny Prosiak",
-        emoji: "⚡",
-        price: 500000
-    },
-
-    {
-        id: 17,
-        name: "Świnia Boga",
-        emoji: "✨",
-        price: 1000000
-    }
-
-];
+    ];
 
 
-/* =========================================================
-   GAME STATE
-========================================================= */
+    /* =========================================================
+       CODES
+    ========================================================= */
 
-let balance = 1000;
+    const CODES = {
 
+        SWINKA100: 100,
+        SWINKA500: 500,
+        SWINKA1000: 1000,
+        PASZA2026: 2500,
+        MILION: 1000000,
 
-/*
-    Początkowo trzy różne przedmioty.
-*/
+        RESET_SWINKA_2026: "RESET"
 
-let inventory = [
-    1,
-    2,
-    3
-];
-
-
-let selectedFrom = null;
-
-let selectedTo = null;
-
-let spinning = false;
+    };
 
 
-/*
-    Całkowita liczba stopni,
-    o które obróciła się strzałka.
-*/
+    /* =========================================================
+       SAVE
+    ========================================================= */
 
-let pointerRotation = 0;
-
-
-/* =========================================================
-   GET ITEM
-========================================================= */
-
-function getItem(id) {
-
-    return ITEMS.find(
-        item => item.id === id
-    );
-
-}
+    const SAVE_KEY = "swinskiDropSave_v1";
+    const MUSIC_KEY = "swinskiDropMusic_v1";
 
 
-/* =========================================================
-   MONEY
-========================================================= */
+    let balance = 1000;
 
-function money(value) {
+    let inventory = [
+        1,
+        2,
+        3
+    ];
 
-    return Number(value).toFixed(2);
+    let selectedFrom = null;
+    let selectedTo = null;
 
-}
+    let spinning = false;
 
+    let pointerRotation = 0;
 
-/* =========================================================
-   NORMALIZE ANGLE
-========================================================= */
-
-function normalizeAngle(angle) {
-
-    return (
-        (
-            angle % 360
-        ) + 360
-    ) % 360;
-
-}
+    let usedCodes = new Set();
 
 
-/* =========================================================
-   CHANCE
-========================================================= */
+    /* =========================================================
+       MUSIC
+    ========================================================= */
 
-function getChance() {
+    const music =
+        document.getElementById("background-music");
 
-    if (
-        selectedFrom === null ||
-        selectedTo === null
-    ) {
+    const musicButton =
+        document.getElementById("music-toggle");
 
-        return 0;
+    let musicEnabled = true;
+    let musicStarted = false;
 
+
+    function loadMusicSetting() {
+
+        const saved =
+            localStorage.getItem(MUSIC_KEY);
+
+        if (saved === "off") {
+
+            musicEnabled = false;
+
+            musicButton.textContent =
+                "🔇 MUZYKA";
+
+            return;
+        }
+
+        musicEnabled = true;
+
+        musicButton.textContent =
+            "🔊 MUZYKA";
     }
 
 
-    const from =
-        getItem(
-            inventory[
-                selectedFrom
-            ]
-        );
+    async function startMusic() {
 
+        if (!musicEnabled) {
+            return;
+        }
 
-    const to =
-        getItem(
-            selectedTo
-        );
+        if (musicStarted) {
+            return;
+        }
 
+        try {
 
-    if (!from || !to) {
+            music.volume = 0.25;
 
-        return 0;
+            await music.play();
 
-    }
+            musicStarted = true;
 
+            musicButton.textContent =
+                "🔊 MUZYKA";
 
-    return Math.min(
-        100,
-        (
-            from.price /
-            to.price
-        ) * 100
-    );
+        } catch (error) {
 
-}
-
-
-/* =========================================================
-   BALANCE
-========================================================= */
-
-function renderBalance() {
-
-    document
-        .getElementById("balance")
-        .textContent =
-        money(balance);
-
-}
-
-
-/* =========================================================
-   FROM ITEMS
-========================================================= */
-
-function renderFromItems() {
-
-    const container =
-        document.getElementById(
-            "fromItems"
-        );
-
-
-    const search =
-        document
-            .getElementById(
-                "fromSearch"
-            )
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    container.innerHTML = "";
-
-
-    inventory.forEach(
-        (id, index) => {
-
-            const item =
-                getItem(id);
-
-
-            if (!item) {
-                return;
-            }
-
-
-            if (
-                !item.name
-                    .toLowerCase()
-                    .includes(search)
-            ) {
-
-                return;
-
-            }
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "item " +
-                (
-                    selectedFrom === index
-                        ? "selected"
-                        : ""
-                );
-
-
-            div.innerHTML = `
-
-                <div class="item-icon">
-                    ${item.emoji}
-                </div>
-
-                <div class="item-info">
-
-                    <div class="item-name">
-                        ${item.name}
-                    </div>
-
-                    <div class="item-price">
-                        ${money(item.price)} PLN
-                    </div>
-
-                </div>
-
-            `;
-
-
-            div.addEventListener(
-                "click",
-                () => {
-
-                    if (spinning) {
-                        return;
-                    }
-
-
-                    selectedFrom =
-                        index;
-
-
-                    /*
-                        Jeżeli wcześniej
-                        wybrany target nie jest
-                        droższy, usuwamy go.
-                    */
-
-                    if (
-                        selectedTo !== null
-                    ) {
-
-                        const from =
-                            getItem(
-                                inventory[
-                                    selectedFrom
-                                ]
-                            );
-
-                        const to =
-                            getItem(
-                                selectedTo
-                            );
-
-
-                        if (
-                            from &&
-                            to &&
-                            to.price <=
-                            from.price
-                        ) {
-
-                            selectedTo = null;
-
-                        }
-
-                    }
-
-
-                    renderAll();
-
-                }
+            console.log(
+                "Muzyka czeka na interakcję użytkownika."
             );
 
+        }
+    }
 
-            container.appendChild(
-                div
+
+    function toggleMusic() {
+
+        if (music.paused) {
+
+            musicEnabled = true;
+
+            music.volume = 0.25;
+
+            music.play()
+                .then(() => {
+
+                    musicStarted = true;
+
+                    musicButton.textContent =
+                        "🔊 MUZYKA";
+
+                    localStorage.setItem(
+                        MUSIC_KEY,
+                        "on"
+                    );
+
+                })
+                .catch(error => {
+
+                    console.log(
+                        "Nie udało się uruchomić muzyki:",
+                        error
+                    );
+
+                });
+
+        } else {
+
+            musicEnabled = false;
+
+            music.pause();
+
+            musicButton.textContent =
+                "🔇 MUZYKA";
+
+            localStorage.setItem(
+                MUSIC_KEY,
+                "off"
             );
+        }
+    }
 
+
+    /*
+        Przeglądarki często blokują autoplay.
+
+        Dlatego próbujemy odpalić muzykę przy pierwszym:
+        - kliknięciu
+        - dotknięciu ekranu
+        - naciśnięciu klawisza
+    */
+
+    function firstInteraction() {
+
+        startMusic();
+
+        document.removeEventListener(
+            "pointerdown",
+            firstInteraction
+        );
+
+        document.removeEventListener(
+            "keydown",
+            firstInteraction
+        );
+    }
+
+
+    document.addEventListener(
+        "pointerdown",
+        firstInteraction,
+        {
+            passive: true
         }
     );
 
 
-    if (
-        container.children.length === 0
-    ) {
+    document.addEventListener(
+        "keydown",
+        firstInteraction
+    );
 
-        container.innerHTML = `
-            <div
-                style="
-                    color:#777;
-                    padding:10px;
-                "
-            >
-                Brak przedmiotów
-            </div>
-        `;
 
+    /* =========================================================
+       SAVE GAME
+    ========================================================= */
+
+    function saveGame() {
+
+        const data = {
+
+            balance: balance,
+
+            inventory: inventory,
+
+            usedCodes: [
+                ...usedCodes
+            ]
+
+        };
+
+        localStorage.setItem(
+            SAVE_KEY,
+            JSON.stringify(data)
+        );
     }
 
-}
+
+    /* =========================================================
+       LOAD GAME
+    ========================================================= */
+
+    function loadGame() {
+
+        const saved =
+            localStorage.getItem(SAVE_KEY);
+
+        if (!saved) {
+            return;
+        }
+
+        try {
+
+            const data =
+                JSON.parse(saved);
 
 
-/* =========================================================
-   TO ITEMS
-========================================================= */
+            if (
+                typeof data.balance === "number" &&
+                Number.isFinite(data.balance) &&
+                data.balance >= 0
+            ) {
 
-function renderToItems() {
+                balance =
+                    data.balance;
+            }
 
-    const container =
-        document.getElementById(
-            "toItems"
+
+            if (
+                Array.isArray(data.inventory)
+            ) {
+
+                inventory =
+                    data.inventory.filter(id =>
+                        ITEMS.some(
+                            item => item.id === id
+                        )
+                    );
+            }
+
+
+            if (
+                Array.isArray(data.usedCodes)
+            ) {
+
+                usedCodes =
+                    new Set(
+                        data.usedCodes
+                    );
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Błąd wczytywania zapisu:",
+                error
+            );
+        }
+    }
+
+
+    /* =========================================================
+       HELPERS
+    ========================================================= */
+
+    function getItem(id) {
+
+        return ITEMS.find(
+            item => item.id === id
         );
+    }
 
 
-    const search =
-        document
-            .getElementById(
-                "toSearch"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+    function formatMoney(value) {
+
+        return new Intl.NumberFormat(
+            "pl-PL"
+        ).format(value) + " PLN";
+    }
 
 
-    container.innerHTML = "";
+    function escapeHtml(text) {
+
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
 
-    let fromPrice = 0;
+    /* =========================================================
+       BALANCE
+    ========================================================= */
+
+    function renderBalance() {
+
+        document.getElementById(
+            "balance"
+        ).textContent =
+            formatMoney(balance);
+    }
 
 
-    if (
-        selectedFrom !== null
-    ) {
+    /* =========================================================
+       INVENTORY
+    ========================================================= */
+
+    function renderInventory() {
+
+        const list =
+            document.getElementById(
+                "inventory-list"
+            );
+
+        const search =
+            document.getElementById(
+                "inventory-search"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const visibleItems =
+            inventory
+                .map((id, index) => ({
+                    id,
+                    index,
+                    item: getItem(id)
+                }))
+                .filter(data => {
+
+                    if (!data.item) {
+                        return false;
+                    }
+
+                    return data.item.name
+                        .toLowerCase()
+                        .includes(search);
+                });
+
+
+        if (visibleItems.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+                    ${inventory.length === 0
+                        ? "Ekwipunek jest pusty."
+                        : "Nie znaleziono itemu."
+                    }
+                </div>
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            visibleItems.map(data => {
+
+                const item =
+                    data.item;
+
+                const selected =
+                    selectedFrom === data.index;
+
+
+                return `
+                    <div
+                        class="item ${selected ? "selected" : ""}"
+                        onclick="selectFrom(${data.index})"
+                    >
+
+                        <div class="item-icon">
+                            ${item.emoji}
+                        </div>
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+                                ${escapeHtml(item.name)}
+                            </div>
+
+                            <div class="item-price">
+                                ${formatMoney(item.price)}
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="item-action sell-button"
+                            onclick="sellInventoryItem(event, ${data.index})"
+                        >
+                            SPRZEDAJ
+                        </button>
+
+                    </div>
+                `;
+
+            }).join("");
+    }
+
+
+    /* =========================================================
+       TARGET LIST
+    ========================================================= */
+
+    function renderTargets() {
+
+        const list =
+            document.getElementById(
+                "target-list"
+            );
+
+        const search =
+            document.getElementById(
+                "target-search"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const visible =
+            ITEMS.filter(item =>
+                item.name
+                    .toLowerCase()
+                    .includes(search)
+            );
+
+
+        if (visible.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+                    Nie znaleziono itemu.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            visible.map(item => {
+
+                const selected =
+                    selectedTo === item.id;
+
+
+                return `
+                    <div
+                        class="item ${selected ? "selected" : ""}"
+                        onclick="selectTo(${item.id})"
+                    >
+
+                        <div class="item-icon">
+                            ${item.emoji}
+                        </div>
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+                                ${escapeHtml(item.name)}
+                            </div>
+
+                            <div class="item-price">
+                                ${formatMoney(item.price)}
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }).join("");
+    }
+
+
+    /* =========================================================
+       SHOP
+    ========================================================= */
+
+    function renderShop() {
+
+        const list =
+            document.getElementById(
+                "shop-list"
+            );
+
+        const search =
+            document.getElementById(
+                "shop-search"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const visible =
+            ITEMS.filter(item =>
+                item.name
+                    .toLowerCase()
+                    .includes(search)
+            );
+
+
+        list.innerHTML =
+            visible.map(item => {
+
+                const canBuy =
+                    balance >= item.price;
+
+
+                return `
+                    <div class="item">
+
+                        <div class="item-icon">
+                            ${item.emoji}
+                        </div>
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+                                ${escapeHtml(item.name)}
+                            </div>
+
+                            <div class="item-price">
+                                ${formatMoney(item.price)}
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="item-action buy-button"
+                            ${canBuy ? "" : "disabled"}
+                            onclick="buyItem(${item.id})"
+                        >
+                            KUP
+                        </button>
+
+                    </div>
+                `;
+
+            }).join("");
+    }
+
+
+    /* =========================================================
+       SELECT FROM
+    ========================================================= */
+
+    function selectFrom(index) {
+
+        if (spinning) {
+            return;
+        }
+
+        if (
+            index < 0 ||
+            index >= inventory.length
+        ) {
+            return;
+        }
+
+        selectedFrom = index;
+
+        renderAll();
+    }
+
+
+    /* =========================================================
+       SELECT TO
+    ========================================================= */
+
+    function selectTo(id) {
+
+        if (spinning) {
+            return;
+        }
+
+        if (!getItem(id)) {
+            return;
+        }
+
+        selectedTo = id;
+
+        renderAll();
+    }
+
+
+    /* =========================================================
+       SELECTED DISPLAY
+    ========================================================= */
+
+    function renderSelected() {
+
+        const fromBox =
+            document.getElementById(
+                "selected-from"
+            );
+
+        const toBox =
+            document.getElementById(
+                "selected-to"
+            );
+
+
+        if (
+            selectedFrom === null ||
+            !inventory[selectedFrom]
+        ) {
+
+            fromBox.innerHTML = `
+                <div class="empty">
+                    Wybierz item
+                </div>
+            `;
+
+        } else {
+
+            const item =
+                getItem(
+                    inventory[selectedFrom]
+                );
+
+
+            if (item) {
+
+                fromBox.innerHTML = `
+                    <div class="big-icon">
+                        ${item.emoji}
+                    </div>
+
+                    <div>
+                        <div class="selected-item-name">
+                            ${escapeHtml(item.name)}
+                        </div>
+
+                        <div class="selected-item-price">
+                            ${formatMoney(item.price)}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+
+        if (selectedTo === null) {
+
+            toBox.innerHTML = `
+                <div class="empty">
+                    Wybierz item
+                </div>
+            `;
+
+        } else {
+
+            const item =
+                getItem(selectedTo);
+
+
+            if (item) {
+
+                toBox.innerHTML = `
+                    <div class="big-icon">
+                        ${item.emoji}
+                    </div>
+
+                    <div>
+                        <div class="selected-item-name">
+                            ${escapeHtml(item.name)}
+                        </div>
+
+                        <div class="selected-item-price">
+                            ${formatMoney(item.price)}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    }
+
+
+    /* =========================================================
+       CHANCE
+    ========================================================= */
+
+    function getChance() {
+
+        if (
+            selectedFrom === null ||
+            selectedTo === null
+        ) {
+            return 0;
+        }
+
 
         const from =
             getItem(
-                inventory[
-                    selectedFrom
-                ]
+                inventory[selectedFrom]
             );
 
-
-        if (from) {
-
-            fromPrice =
-                from.price;
-
-        }
-
-    }
-
-
-    ITEMS.forEach(
-        item => {
-
-
-            /*
-                Pokazujemy tylko droższe
-                przedmioty.
-            */
-
-            if (
-                selectedFrom !== null &&
-                item.price <= fromPrice
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                !item.name
-                    .toLowerCase()
-                    .includes(search)
-            ) {
-
-                return;
-
-            }
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "item " +
-                (
-                    selectedTo === item.id
-                        ? "selected"
-                        : ""
-                );
-
-
-            div.innerHTML = `
-
-                <div class="item-icon">
-                    ${item.emoji}
-                </div>
-
-                <div class="item-info">
-
-                    <div class="item-name">
-                        ${item.name}
-                    </div>
-
-                    <div class="item-price">
-                        ${money(item.price)} PLN
-                    </div>
-
-                </div>
-
-            `;
-
-
-            div.addEventListener(
-                "click",
-                () => {
-
-                    if (spinning) {
-                        return;
-                    }
-
-
-                    selectedTo =
-                        item.id;
-
-
-                    renderAll();
-
-                }
-            );
-
-
-            container.appendChild(
-                div
-            );
-
-        }
-    );
-
-
-    if (
-        container.children.length === 0
-    ) {
-
-        container.innerHTML = `
-            <div
-                style="
-                    color:#777;
-                    padding:10px;
-                "
-            >
-                Brak dostępnych przedmiotów
-            </div>
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   PREVIEW
-========================================================= */
-
-function renderPreview() {
-
-    const fromCard =
-        document.getElementById(
-            "fromCard"
-        );
-
-
-    const toCard =
-        document.getElementById(
-            "toCard"
-        );
-
-
-    if (
-        selectedFrom !== null
-    ) {
-
-        const item =
-            getItem(
-                inventory[
-                    selectedFrom
-                ]
-            );
-
-
-        if (item) {
-
-            fromCard.innerHTML = `
-
-                <div class="big">
-                    ${item.emoji}
-                </div>
-
-                <div class="name">
-                    ${item.name}
-                </div>
-
-                <div class="value">
-                    ${money(item.price)} PLN
-                </div>
-
-            `;
-
-        }
-
-    } else {
-
-        fromCard.innerHTML = `
-
-            <div class="big">
-                ❓
-            </div>
-
-            <div class="name">
-                Wybierz item
-            </div>
-
-            <div class="value">
-                ---
-            </div>
-
-        `;
-
-    }
-
-
-    if (
-        selectedTo !== null
-    ) {
-
-        const item =
+        const to =
             getItem(selectedTo);
 
 
-        if (item) {
-
-            toCard.innerHTML = `
-
-                <div class="big">
-                    ${item.emoji}
-                </div>
-
-                <div class="name">
-                    ${item.name}
-                </div>
-
-                <div class="value">
-                    ${money(item.price)} PLN
-                </div>
-
-            `;
-
+        if (!from || !to) {
+            return 0;
         }
 
-    } else {
 
-        toCard.innerHTML = `
+        if (to.price <= 0) {
+            return 0;
+        }
 
-            <div class="big">
-                ❓
-            </div>
 
-            <div class="name">
-                Wybierz item
-            </div>
+        let chance =
+            (from.price / to.price) * 100;
 
-            <div class="value">
-                ---
-            </div>
 
-        `;
+        /*
+            Nie pozwalamy na więcej niż 100%.
+        */
 
+        chance =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    chance
+                )
+            );
+
+
+        return chance;
     }
 
-}
+
+    function renderChance() {
+
+        const chance =
+            getChance();
 
 
-/* =========================================================
-   UPDATE WHEEL
-========================================================= */
-
-function updateWheel() {
-
-    const chance =
-        getChance();
+        document.getElementById(
+            "chance"
+        ).textContent =
+            chance.toFixed(2) + "%";
 
 
-    const pinkAngle =
-        (
-            chance / 100
-        ) * 360;
-
-
-    const wheel =
         document.getElementById(
             "wheel"
+        ).style.setProperty(
+            "--pink-angle",
+            (chance * 3.6) + "deg"
         );
 
 
-    wheel.style.setProperty(
-        "--pink-angle",
-        `${pinkAngle}deg`
-    );
+        const button =
+            document.getElementById(
+                "upgrade-button"
+            );
 
 
-    document
-        .getElementById(
-            "chance"
-        )
-        .textContent =
-        chance.toFixed(2) + "%";
-
-}
-
-
-/* =========================================================
-   RESULT
-========================================================= */
-
-function showResult(
-    text,
-    win
-) {
-
-    const result =
-        document.getElementById(
-            "result"
-        );
-
-
-    result.textContent =
-        text;
-
-
-    result.className =
-        "result " +
-        (
-            win
-                ? "win"
-                : "loss"
-        );
-
-}
-
-
-/* =========================================================
-   SPIN
-========================================================= */
-
-function spin() {
-
-    if (spinning) {
-        return;
+        button.disabled =
+            spinning ||
+            selectedFrom === null ||
+            selectedTo === null ||
+            chance <= 0;
     }
 
 
-    if (
-        selectedFrom === null
-    ) {
+    /* =========================================================
+       BUY ITEM
+    ========================================================= */
 
-        showResult(
-            "❌ Wybierz przedmiot po lewej.",
-            false
-        );
+    function buyItem(id) {
 
-        return;
+        if (spinning) {
+            return;
+        }
 
+
+        const item =
+            getItem(id);
+
+
+        if (!item) {
+            return;
+        }
+
+
+        if (balance < item.price) {
+
+            alert(
+                "Nie masz wystarczająco pieniędzy."
+            );
+
+            return;
+        }
+
+
+        balance -= item.price;
+
+        inventory.push(item.id);
+
+        saveGame();
+
+        renderAll();
     }
 
 
-    if (
-        selectedTo === null
-    ) {
+    /* =========================================================
+       SELL ITEM
+    ========================================================= */
 
-        showResult(
-            "❌ Wybierz przedmiot po prawej.",
-            false
+    function sellInventoryItem(event, index) {
+
+        event.stopPropagation();
+
+
+        if (spinning) {
+            return;
+        }
+
+
+        if (
+            index < 0 ||
+            index >= inventory.length
+        ) {
+            return;
+        }
+
+
+        const item =
+            getItem(
+                inventory[index]
+            );
+
+
+        if (!item) {
+            return;
+        }
+
+
+        balance += item.price;
+
+        inventory.splice(
+            index,
+            1
         );
 
-        return;
 
+        /*
+            Jeżeli sprzedany został aktualnie
+            wybrany item, resetujemy wybór.
+        */
+
+        if (selectedFrom === index) {
+
+            selectedFrom = null;
+
+        } else if (
+            selectedFrom !== null &&
+            selectedFrom > index
+        ) {
+
+            selectedFrom--;
+        }
+
+
+        saveGame();
+
+        renderAll();
     }
 
 
-    const from =
-        getItem(
-            inventory[
-                selectedFrom
-            ]
-        );
+    /* =========================================================
+       NORMALIZE ANGLE
+    ========================================================= */
 
+    function normalizeAngle(angle) {
 
-    const to =
-        getItem(
-            selectedTo
-        );
+        angle %= 360;
 
+        if (angle < 0) {
+            angle += 360;
+        }
 
-    if (!from || !to) {
-        return;
+        return angle;
     }
 
 
-    if (
-        to.price <= from.price
-    ) {
+    /* =========================================================
+       UPGRADE
+    ========================================================= */
 
-        showResult(
-            "❌ Target musi być droższy.",
-            false
-        );
+    function upgrade() {
 
-        return;
-
-    }
+        if (spinning) {
+            return;
+        }
 
 
-    /*
-    ========================================================
-       SZANSA
-    ========================================================
-    */
-
-    const chance =
-        (
-            from.price /
-            to.price
-        ) * 100;
+        if (
+            selectedFrom === null ||
+            selectedTo === null
+        ) {
+            return;
+        }
 
 
-    const pinkAngle =
-        (
-            chance / 100
-        ) * 360;
+        const from =
+            getItem(
+                inventory[selectedFrom]
+            );
+
+        const to =
+            getItem(selectedTo);
 
 
-    /*
-    ========================================================
-       LOSOWANIE JEDNEGO KONKRETNEGO KĄTA
-    ========================================================
-
-       Ten sam kąt odpowiada za:
-
-       1. wizualne zatrzymanie strzałki
-       2. WIN / LOSS
-    */
-
-    const finalAngle =
-        Math.random() * 360;
+        if (!from || !to) {
+            return;
+        }
 
 
-    /*
-    ========================================================
-       WIN / LOSS
-    ========================================================
-    */
-
-    const won =
-        finalAngle < pinkAngle;
+        const chance =
+            getChance();
 
 
-    spinning = true;
+        if (chance <= 0) {
+            return;
+        }
 
 
-    document
-        .getElementById("spin")
-        .disabled = true;
+        spinning = true;
 
 
-    document
-        .getElementById("result")
-        .textContent = "";
+        const result =
+            document.getElementById(
+                "result"
+            );
 
 
-    /*
-    ========================================================
-       AKTUALNY KĄT
-    ========================================================
-    */
+        result.textContent = "";
 
-    const currentAngle =
-        normalizeAngle(
-            pointerRotation
-        );
+        result.className =
+            "result";
 
 
-    /*
-    ========================================================
-       ODLEGŁOŚĆ DO CELU
-    ========================================================
-    */
+        /*
+            Różowy obszar zajmuje:
 
-    const distance =
-        normalizeAngle(
-            finalAngle -
-            currentAngle
-        );
+            0° -> chance%
 
+            Losujemy JEDEN finalAngle.
 
-    /*
-    ========================================================
-       LOSOWA LICZBA PEŁNYCH OBROTÓW
-    ========================================================
-    */
+            To właśnie ten sam kąt:
+            - decyduje o WIN/LOSS
+            - jest końcową pozycją wskazówki.
+        */
 
-    const fullSpins =
-        6 +
-        Math.floor(
-            Math.random() * 3
-        );
+        const pinkAngle =
+            chance * 3.6;
 
 
-    /*
-    ========================================================
-       NOWA POZYCJA
-    ========================================================
-    */
-
-    pointerRotation +=
-        fullSpins * 360 +
-        distance;
+        const finalAngle =
+            Math.random() * 360;
 
 
-    /*
-    ========================================================
-       ANIMACJA
-    ========================================================
-    */
-
-    document
-        .getElementById(
-            "pointer-wrapper"
-        )
-        .style.transform =
-        `rotate(${pointerRotation}deg)`;
+        const won =
+            finalAngle < pinkAngle;
 
 
-    /*
-    ========================================================
-       KONIEC
-    ========================================================
-    */
+        /*
+            Aktualna pozycja wskazówki.
+        */
 
-    setTimeout(
-        () => {
+        const currentAngle =
+            normalizeAngle(
+                pointerRotation
+            );
+
+
+        /*
+            Odległość od aktualnego kąta
+            do wylosowanego kąta.
+        */
+
+        const distance =
+            normalizeAngle(
+                finalAngle - currentAngle
+            );
+
+
+        /*
+            Kilka pełnych obrotów + finalAngle.
+
+            Koło pozostaje nieruchome.
+            Obraca się tylko pointer-wrapper.
+        */
+
+        pointerRotation +=
+            (360 * 5) +
+            distance;
+
+
+        const pointer =
+            document.getElementById(
+                "pointer-wrapper"
+            );
+
+
+        pointer.style.transform =
+            `rotate(${pointerRotation}deg)`;
+
+
+        /*
+            Po zakończeniu animacji
+            rozliczamy wynik.
+        */
+
+        setTimeout(() => {
 
             if (won) {
+
+                /*
+                    WIN:
+                    źródłowy item zostaje zastąpiony
+                    targetem.
+                */
 
                 inventory[
                     selectedFrom
                 ] = to.id;
 
 
-                showResult(
-                    `🎉 WIN! ${from.name} → ${to.name}`,
-                    true
-                );
+                result.textContent =
+                    `🎉 WIN! Otrzymujesz ${to.emoji} ${to.name}!`;
+
+                result.className =
+                    "result win";
+
 
             } else {
+
+                /*
+                    LOSS:
+                    źródłowy item znika.
+                */
 
                 inventory.splice(
                     selectedFrom,
@@ -2063,202 +2065,215 @@ function spin() {
                 );
 
 
-                showResult(
-                    `💀 LOSS! Straciłeś ${from.name}`,
-                    false
-                );
+                result.textContent =
+                    "💥 LOSS! Item został stracony.";
 
+                result.className =
+                    "result loss";
             }
 
 
             selectedFrom = null;
 
-            selectedTo = null;
+            saveGame();
 
             spinning = false;
 
+            renderAll();
 
-            document
-                .getElementById("spin")
-                .disabled = false;
+        }, 4350);
+    }
 
+
+    /* =========================================================
+       CODES
+    ========================================================= */
+
+    function redeemCode() {
+
+        const input =
+            document.getElementById(
+                "code-input"
+            );
+
+        const message =
+            document.getElementById(
+                "code-message"
+            );
+
+
+        const code =
+            input.value
+                .trim()
+                .toUpperCase();
+
+
+        if (!code) {
+
+            message.textContent =
+                "Wpisz kod.";
+
+            return;
+        }
+
+
+        if (!(code in CODES)) {
+
+            message.textContent =
+                "❌ Nieprawidłowy kod.";
+
+            return;
+        }
+
+
+        if (usedCodes.has(code)) {
+
+            message.textContent =
+                "❌ Ten kod został już wykorzystany.";
+
+            return;
+        }
+
+
+        const reward =
+            CODES[code];
+
+
+        /*
+            RESET CODE
+        */
+
+        if (reward === "RESET") {
+
+            localStorage.removeItem(
+                SAVE_KEY
+            );
+
+
+            balance = 1000;
+
+            inventory = [
+                1,
+                2,
+                3
+            ];
+
+            selectedFrom = null;
+            selectedTo = null;
+
+            usedCodes = new Set();
+
+            saveGame();
+
+            input.value = "";
+
+            message.textContent =
+                "🔄 Gra została zresetowana.";
 
             renderAll();
 
-        },
-        4300
-    );
-
-}
+            return;
+        }
 
 
-/* =========================================================
-   SHOP
-========================================================= */
+        /*
+            NORMALNY KOD
+        */
 
-function renderShop() {
+        balance += reward;
 
-    const container =
-        document.getElementById(
-            "shopItems"
+        usedCodes.add(code);
+
+        saveGame();
+
+
+        input.value = "";
+
+
+        message.textContent =
+            `🎉 Otrzymujesz ${formatMoney(reward)}!`;
+
+
+        renderAll();
+    }
+
+
+    /* =========================================================
+       SEARCH EVENTS
+    ========================================================= */
+
+    document
+        .getElementById("inventory-search")
+        .addEventListener(
+            "input",
+            renderInventory
         );
 
 
-    container.innerHTML = "";
+    document
+        .getElementById("target-search")
+        .addEventListener(
+            "input",
+            renderTargets
+        );
 
 
-    ITEMS.forEach(
-        item => {
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "shop-item";
+    document
+        .getElementById("shop-search")
+        .addEventListener(
+            "input",
+            renderShop
+        );
 
 
-            div.innerHTML = `
+    /* =========================================================
+       ENTER FOR CODE
+    ========================================================= */
 
-                <div class="emoji">
-                    ${item.emoji}
-                </div>
+    document
+        .getElementById("code-input")
+        .addEventListener(
+            "keydown",
+            function(event) {
 
-                <div class="shop-name">
-                    ${item.name}
-                </div>
-
-                <div class="shop-price">
-                    ${money(item.price)} PLN
-                </div>
-
-                <button class="buy">
-                    KUP
-                </button>
-
-            `;
-
-
-            div.querySelector(
-                ".buy"
-            ).addEventListener(
-                "click",
-                () => {
-
-
-                    if (
-                        balance < item.price
-                    ) {
-
-                        showResult(
-                            "❌ Nie masz wystarczająco pieniędzy.",
-                            false
-                        );
-
-                        return;
-
-                    }
-
-
-                    balance -=
-                        item.price;
-
-
-                    inventory.push(
-                        item.id
-                    );
-
-
-                    renderBalance();
-
-                    renderFromItems();
-
-
-                    showResult(
-                        `🛒 Kupiono ${item.name}`,
-                        true
-                    );
-
+                if (event.key === "Enter") {
+                    redeemCode();
                 }
-            );
+
+            }
+        );
 
 
-            container.appendChild(
-                div
-            );
+    /* =========================================================
+       RENDER ALL
+    ========================================================= */
 
-        }
-    );
+    function renderAll() {
 
-}
+        renderBalance();
 
+        renderInventory();
 
-/* =========================================================
-   RENDER ALL
-========================================================= */
+        renderTargets();
 
-function renderAll() {
+        renderShop();
 
-    renderBalance();
+        renderSelected();
 
-    renderFromItems();
-
-    renderToItems();
-
-    renderPreview();
-
-    updateWheel();
-
-    renderShop();
-
-}
+        renderChance();
+    }
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+    /* =========================================================
+       START
+    ========================================================= */
 
-document
-    .getElementById(
-        "fromSearch"
-    )
-    .addEventListener(
-        "input",
-        renderFromItems
-    );
+    loadGame();
 
+    loadMusicSetting();
 
-document
-    .getElementById(
-        "toSearch"
-    )
-    .addEventListener(
-        "input",
-        renderToItems
-    );
+    renderAll();
 
-
-/* =========================================================
-   SPIN BUTTON
-========================================================= */
-
-document
-    .getElementById(
-        "spin"
-    )
-    .addEventListener(
-        "click",
-        spin
-    );
-
-
-/* =========================================================
-   START
-========================================================= */
-
-renderAll();
 
 </script>
 
